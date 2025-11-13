@@ -41,7 +41,8 @@ jobs:
       with:
         ruby-version: ${{matrix.ruby}}
         bundler-cache: true
-    
+    - name: Build markly
+      run: bundle exec bake build
     - name: Run tests
       timeout-minutes: 10
       run: bundle exec bake test
