@@ -562,7 +562,7 @@ static VALUE rb_render_html(VALUE self, VALUE rb_options, VALUE rb_extensions) {
 	}
 
 	char *html = cmark_render_html(node, options, extensions);
-	VALUE ruby_html = rb_str_new2(html);
+	VALUE ruby_html = encode_utf8_string(html);
 
 	cmark_llist_free(mem, extensions);
 	free(html);
@@ -592,7 +592,7 @@ static VALUE rb_render_commonmark(int argc, VALUE *argv, VALUE self) {
 	TypedData_Get_Struct(self, cmark_node, &rb_Markly_Node_Type, node);
 
 	char *cmark = cmark_render_commonmark(node, options, width);
-	VALUE ruby_cmark = rb_str_new2(cmark);
+	VALUE ruby_cmark = encode_utf8_string(cmark);
 	free(cmark);
 
 	return ruby_cmark;
@@ -620,7 +620,7 @@ static VALUE rb_render_plaintext(int argc, VALUE *argv, VALUE self) {
 	TypedData_Get_Struct(self, cmark_node, &rb_Markly_Node_Type, node);
 
 	char *text = cmark_render_plaintext(node, options, width);
-	VALUE ruby_text = rb_str_new2(text);
+	VALUE ruby_text = encode_utf8_string(text);
 	free(text);
 
 	return ruby_text;
@@ -741,7 +741,7 @@ static VALUE rb_node_get_url(VALUE self) {
 		rb_raise(rb_Markly_Error, "could not get url");
 	}
 
-	return rb_str_new2(text);
+	return encode_utf8_string(text);
 }
 
 /*
@@ -782,7 +782,7 @@ static VALUE rb_node_get_title(VALUE self) {
 		rb_raise(rb_Markly_Error, "could not get title");
 	}
 
-	return rb_str_new2(text);
+	return encode_utf8_string(text);
 }
 
 /*
@@ -1003,7 +1003,7 @@ static VALUE rb_node_get_fence_info(VALUE self) {
 		rb_raise(rb_Markly_Error, "could not get fence_info");
 	}
 
-	return rb_str_new2(fence_info);
+	return encode_utf8_string(fence_info);
 }
 
 /*
